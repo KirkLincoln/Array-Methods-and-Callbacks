@@ -24,8 +24,13 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(data) {
+    let teams = [];
+   data.filter(team => {
+       team.Stage === 'Final' ? teams.push(team) : null
+   });
+
+   return teams;
 }
 
 
@@ -36,8 +41,15 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(data, getFinalsCB) {
+   const finalsData = getFinalsCB(data);
+   // Closure ends here on CB
+   let years = [];
+   finalsData.forEach(team => {
+       years.push(team.Year)
+   })
+
+   return years;
 }
 
 
@@ -49,8 +61,16 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(data, getFinals) {
+    const finalsData = getFinals(data);
+    let winners = [];
+    finalsData.forEach(team => {
+        team['Home Team Goals'] > team['Away Team Goals'] ? 
+        winners.push(team['Home Team Name']) : 
+        winners.push(team['Away Team Name']);
+    });
+
+    return winners;
 }
 
 
@@ -65,8 +85,21 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(data, getYearsCB, getWinnersCB) {
+    const winningYears = getYearsCB(data);
+    const winningNames = getWinnersCB(data);
+    let ledger = [];
+
+    winningYears.length !== winningNames.length ? 
+    window.alert("Error fetching the nessecary resources") : 
+    null;
+
+
+    for(let i = 0; i < winningYears.length; i++) {
+        ledger.push(`In ${winningYears[i]}, ${winningNames[i]} won the world cup!`);
+    }
+
+    return ledger;
 }
 
 
@@ -81,8 +114,13 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
+function getAverageGoals(data, getFinals) {
+    const scores = getFinals(data);
+
+    const reducer = (val, acc) => val += acc;
+    scores.reduce(reducer => {
+        
+    })
 }
 
 
